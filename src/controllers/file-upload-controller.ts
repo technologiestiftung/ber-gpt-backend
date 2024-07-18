@@ -45,6 +45,7 @@ export const uploadFile = async (req: Request, res: Response) => {
       .single();
 
     if (insertRegisteredDocumentError) {
+      console.error(JSON.stringify(insertRegisteredDocumentError));
       return res
         .status(500)
         .json({ error: insertRegisteredDocumentError.message });
