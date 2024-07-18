@@ -1,35 +1,27 @@
+import axios, { AxiosResponse } from "axios";
 import { LLMHandler } from "../types/llm-handler-types";
 import { ChatMessage, ChatResponse } from "../types/chat-types";
 
 export class OpenAILLMHandler implements LLMHandler {
-  async callLLM(
-    model: string,
-    messages: ChatMessage[],
-    max_tokens?: number,
-    temperature?: number,
-    top_p?: number
-  ): Promise<ChatResponse> {
-    // Implement the actual call to the LLM (e.g., OpenAI, HuggingFace, custom model, etc.)
-    // Here you would implement the specific API call logic.
-
-    // This is a mock response for illustration purposes.
-    return {
-      id: "unique-id",
-      model: model,
-      choices: [
+  async callLLM(messages: ChatMessage[]): Promise<ChatResponse> {
+    try {
+      const response: AxiosResponse<ChatResponse> = await axios.post(
+        "https://api.openai.com/v1/chat/completions",
         {
-          message: {
-            role: "assistant",
-            content: "This is a response from the LLM.",
-          },
-          finish_reason: "stop",
+          model: "gpt-3.5-turbo",
+          messages,
         },
-      ],
-      usage: {
-        prompt_tokens: 10,
-        completion_tokens: 20,
-        total_tokens: 30,
-      },
-    };
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Failed to call LLM`);
+    }
   }
 }

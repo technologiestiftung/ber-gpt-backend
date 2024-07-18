@@ -13,16 +13,10 @@ export const chatWithLLM = async (
   req: Request<{}, {}, ChatRequest>,
   res: Response<ChatResponse | ChatErrorResponse>
 ) => {
-  const { model, messages, max_tokens, temperature, top_p } = req.body;
-
+  const { messages } = req.body;
+  console.log(req.body);
   try {
-    const llmResponse = await llmHandler.callLLM(
-      model,
-      messages,
-      max_tokens,
-      temperature,
-      top_p
-    );
+    const llmResponse = await llmHandler.callLLM(messages);
 
     const response: ChatResponse = {
       id: llmResponse.id,

@@ -4,11 +4,7 @@ export interface ChatMessage {
 }
 
 export interface ChatRequest {
-  model: string;
   messages: ChatMessage[];
-  max_tokens?: number;
-  temperature?: number;
-  top_p?: number;
 }
 
 export interface ChatChoice {
