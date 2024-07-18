@@ -9,5 +9,11 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export const getSupabaseClientWithToken = (
   accessToken: string
 ): SupabaseClient => {
-  return createClient(supabaseUrl, accessToken);
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  });
 };
