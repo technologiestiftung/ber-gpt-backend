@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
+import { processDocument } from "../utils/process-document";
 
 export const uploadFile = async (req: Request, res: Response) => {
   const { file } = req;
@@ -10,7 +11,7 @@ export const uploadFile = async (req: Request, res: Response) => {
 
   const user = (req as any).user;
   const supabaseClient = (req as any).supabaseClient as SupabaseClient;
-  const filePath = `uploads/${user.user.id}/${file.originalname}`;
+  const filePath = `${user.user.id}/${file.originalname}`;
 
   try {
     const { data, error } = await supabaseClient.storage
@@ -28,7 +29,10 @@ export const uploadFile = async (req: Request, res: Response) => {
       .from("documents")
       .getPublicUrl(filePath);
 
-    const { error: insertRegisteredDocumentError } = await supabaseClient
+    const {
+      data: insertRegisteredDocumentData,
+      error: insertRegisteredDocumentError,
+    } = await supabaseClient
       .from("registered_documents")
       .insert({
         user_id: user.user.id,
@@ -36,7 +40,9 @@ export const uploadFile = async (req: Request, res: Response) => {
         source_type: "pdf",
         registered_at: new Date().toISOString(),
         metadata: {},
-      });
+      })
+      .select("*")
+      .single();
 
     if (insertRegisteredDocumentError) {
       return res
@@ -44,7 +50,23 @@ export const uploadFile = async (req: Request, res: Response) => {
         .json({ error: insertRegisteredDocumentError.message });
     }
 
-    res.json({ data, publicURL: publicURLData.publicUrl });
+    console.log(
+      `Starting processing of uploaded file ${publicURLData.publicUrl}...`
+    );
+    processDocument(insertRegisteredDocumentData, supabaseClient, user.user)
+      .then(() => {
+        console.log(
+          `Uploaded file ${publicURLData.publicUrl} processed successfully...`
+        );
+      })
+      .catch((error) => {
+        console.error(
+          `Error processing uploaded file ${publicURLData.publicUrl}...`
+        );
+        console.error(error);
+      });
+
+    res.json({ publicURL: publicURLData.publicUrl });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }

@@ -14,9 +14,8 @@ export const chatWithLLM = async (
   res: Response<ChatResponse | ChatErrorResponse>
 ) => {
   const { messages } = req.body;
-  console.log(req.body);
   try {
-    const llmResponse = await llmHandler.callLLM(messages);
+    const llmResponse = await llmHandler.chatCompletion(messages);
 
     const response: ChatResponse = {
       id: llmResponse.id,

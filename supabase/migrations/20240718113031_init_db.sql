@@ -66,9 +66,20 @@ CREATE POLICY "allow authenticated to access own processed_document_chunks"
     USING (user_id = auth.uid());
 
 insert into storage.buckets (id, name, public)  values ('documents', 'documents', false);
-create policy "allow insert to documents bucket for authenticated"
-on storage.objects for insert to authenticated with check (
-    -- restrict bucket
-    bucket_id = 'documents'
+
+create policy "Allow insert to documents bucket for authenticated into folder with user_id"
+on storage.objects
+for insert
+to authenticated
+with check (
+  bucket_id = 'documents' and
+  (storage.foldername(name))[1] = (select auth.uid()::text)
 );
 
+create policy "allow select to documents bucket for authenticated"
+on storage.objects for select
+to authenticated
+using (
+    bucket_id = 'documents' and 
+    (select auth.uid()::text) = owner_id 
+);
