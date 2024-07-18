@@ -94,6 +94,14 @@ export async function processDocument(
     insertSummaryError ||
     embeddInsertError
   ) {
+    console.error(
+      JSON.stringify(
+        error ??
+          insertProcessedDocumentError ??
+          insertSummaryError ??
+          embeddInsertError
+      )
+    );
     await authenticatedSupabaseClient
       .from("processed_documents")
       .update({

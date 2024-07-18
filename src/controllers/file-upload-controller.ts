@@ -14,20 +14,7 @@ export const uploadFile = async (req: Request, res: Response) => {
   const filePath = `${user.user.id}/${file.originalname}`;
 
   try {
-    const { data: testd, error: teste } = await supabaseClient
-      .from("registered_documents")
-      .insert({
-        user_id: user.user.id,
-        source_url: "https://test.com",
-        source_type: "pdf",
-        registered_at: new Date().toISOString(),
-        metadata: {},
-      })
-      .select("*")
-      .single();
-    console.error(testd, teste);
-
-    const { data, error } = await supabaseClient.storage
+    const { error } = await supabaseClient.storage
       .from("documents")
       .upload(filePath, file.buffer, {
         cacheControl: "3600",
