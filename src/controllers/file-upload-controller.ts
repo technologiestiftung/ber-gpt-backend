@@ -10,9 +10,8 @@ export const uploadFile = async (req: Request, res: Response) => {
   }
 
   const user = (req as any).user;
-  const supabaseClient = (req as any).supabaseClient as SupabaseClient;
+  const supabaseClient = (req as any).supabaseClient;
   const filePath = `${user.user.id}/${file.originalname}`;
-  console.log(user, supabaseClient, filePath);
 
   try {
     const { data: testd, error: teste } = await supabaseClient
@@ -26,6 +25,7 @@ export const uploadFile = async (req: Request, res: Response) => {
       })
       .select("*")
       .single();
+    console.error(testd, teste);
 
     const { data, error } = await supabaseClient.storage
       .from("documents")
