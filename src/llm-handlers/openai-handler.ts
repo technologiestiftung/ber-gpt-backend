@@ -1,28 +1,35 @@
-import axios, { AxiosResponse } from "axios";
+import { ChatMessage } from "../types/chat-types";
 import { LLMHandler } from "../types/llm-handler-types";
-import { ChatMessage, ChatResponse } from "../types/chat-types";
+import { convertWebStreamToNodeStream } from "../utils/stream-utils";
 
 export class OpenAILLMHandler implements LLMHandler {
   async chatCompletion(
-    messages: ChatMessage[],
-    responseFormat?: string
-  ): Promise<ChatResponse> {
+    messages: ChatMessage[]
+  ): Promise<NodeJS.ReadableStream> {
     try {
-      const response: AxiosResponse<ChatResponse> = await axios.post(
+      const response = await fetch(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-4o-mini",
-          messages,
-          response_format: responseFormat ? { type: responseFormat } : null,
-        },
-        {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: messages,
+            temperature: 0,
+            stream: true,
+          }),
         }
       );
-      return response.data;
+
+      if (!response.body) {
+        throw new Error(`Failed to call LLM`);
+      }
+
+      const stream = convertWebStreamToNodeStream(response.body);
+      return stream;
     } catch (error) {
       console.error(error);
       throw new Error(`Failed to call LLM`);

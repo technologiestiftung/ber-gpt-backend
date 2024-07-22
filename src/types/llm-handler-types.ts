@@ -1,8 +1,5 @@
-import { ChatMessage, ChatResponse } from "./chat-types";
+import { ChatMessage } from "./chat-types";
 
 export interface LLMHandler {
-  chatCompletion(
-    messages: ChatMessage[],
-    response_format?: string
-  ): Promise<ChatResponse>;
+  chatCompletion(messages: ChatMessage[]): Promise<NodeJS.ReadableStream>;
 }

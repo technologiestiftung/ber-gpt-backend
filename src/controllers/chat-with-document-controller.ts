@@ -3,6 +3,7 @@ import { OpenAILLMHandler } from "../llm-handlers/openai-handler";
 import { ChatMessage, ChatResponse } from "../types/chat-types";
 import { LLMHandler } from "../types/llm-handler-types";
 import { extract } from "../utils/extract-document";
+import { pipeline } from "node:stream/promises";
 
 const llmHandler: LLMHandler = new OpenAILLMHandler();
 
@@ -37,16 +38,9 @@ Beantworte die folgenden Fragen nur mit Informationen aus dem Dokument.
 
     const allMessages = systemMessages.concat(userMessages);
 
-    const llmResponse = await llmHandler.chatCompletion(allMessages);
+    const llmStream = await llmHandler.chatCompletion(allMessages);
 
-    const response: ChatResponse = {
-      id: llmResponse.id,
-      model: llmResponse.model,
-      choices: llmResponse.choices,
-      usage: llmResponse.usage,
-    };
-
-    res.json({ ...response, extractedText: extractedText });
+    await pipeline(llmStream, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
