@@ -9,7 +9,7 @@ import chatWithDocumentRoutes from "./routes/chat-with-document-routes";
 import healthRoutes from "./routes/health-routes";
 import { Config } from "./types/config-types";
 import { parseConfig } from "./utils/parse-config";
-const bodyParser = require("body-parser");
+import bodyParser from "body-parser";
 
 const config: Config = parseConfig();
 
