@@ -26,10 +26,6 @@ app.use("/chat", chatRoutes);
 app.use("/auth", authRoutes);
 app.use("/chat-with-document", chatWithDocumentRoutes);
 
-app.use("/protected", checkAuth, (req, res) => {
-  res.json({ message: "This is a protected route", user: (req as any).user });
-});
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
