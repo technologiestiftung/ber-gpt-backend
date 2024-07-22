@@ -1,14 +1,14 @@
+import cookieParser from "cookie-parser";
 import express from "express";
+import basicAuthMiddleware from "./middleware/basic-auth-middleware";
 import corsMiddleware from "./middleware/cors";
-import healthRoutes from "./routes/health-routes";
-import chatRoutes from "./routes/chat-routes";
 import rateLimitMiddleware from "./middleware/rate-limit";
+import authRoutes from "./routes/auth-routes";
+import chatRoutes from "./routes/chat-routes";
+import chatWithDocumentRoutes from "./routes/chat-with-document-routes";
+import healthRoutes from "./routes/health-routes";
 import { Config } from "./types/config-types";
 import { parseConfig } from "./utils/parse-config";
-import authRoutes from "./routes/auth-routes";
-import { checkAuth } from "./middleware/auth-middleware";
-import cookieParser from "cookie-parser";
-import chatWithDocumentRoutes from "./routes/chat-with-document-routes";
 const bodyParser = require("body-parser");
 
 const config: Config = parseConfig();
@@ -21,6 +21,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(corsMiddleware(config));
 app.use(rateLimitMiddleware(config));
+app.use(basicAuthMiddleware);
+
 app.use("/", healthRoutes);
 app.use("/chat", chatRoutes);
 app.use("/auth", authRoutes);

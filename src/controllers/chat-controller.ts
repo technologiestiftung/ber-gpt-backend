@@ -26,6 +26,7 @@ export const chatWithLLM = async (
 
     res.json(response);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Failed to call LLM" });
   }
 };
