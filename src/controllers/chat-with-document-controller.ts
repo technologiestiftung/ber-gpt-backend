@@ -41,7 +41,7 @@ export const chatWithDocument = async (req: Request, res: Response) => {
       usage: llmResponse.usage,
     };
 
-    res.json(response);
+    res.json({ ...response, extractedText: extractedText });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
