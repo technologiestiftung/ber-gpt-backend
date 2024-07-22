@@ -4,4 +4,5 @@ export interface Config {
   corsAllowedOrigin: string;
   supabaseUrl: string;
   supabaseAnonKey: string;
+  xApiKey: string;
 }

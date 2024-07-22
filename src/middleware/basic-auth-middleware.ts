@@ -1,24 +1,21 @@
 import { Request, Response, NextFunction } from "express";
+import { Config } from "../types/config-types";
 
-const basicAuthMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const xApiKeyInHeader = req.headers["x-api-key"];
+const basicAuthMiddleware =
+  (config: Config) => (req: Request, res: Response, next: NextFunction) => {
+    const xApiKeyInHeader = req.headers["x-api-key"];
 
-  if (!xApiKeyInHeader) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+    if (!xApiKeyInHeader) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
-  const validXApiKey = process.env.X_API_KEY;
+    const validXApiKey = config.xApiKey;
 
-  console.log(xApiKeyInHeader, validXApiKey);
-  if (xApiKeyInHeader !== validXApiKey) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+    if (xApiKeyInHeader !== validXApiKey) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
-  next();
-};
+    next();
+  };
 
 export default basicAuthMiddleware;

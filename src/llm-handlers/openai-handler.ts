@@ -22,7 +22,6 @@ export class OpenAILLMHandler implements LLMHandler {
           },
         }
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);

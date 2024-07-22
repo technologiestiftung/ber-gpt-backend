@@ -16,6 +16,9 @@ export function parseConfig(): Config {
   if (!process.env.SUPABASE_ANON_KEY) {
     throw new Error("SUPABASE_ANON_KEY must be defined");
   }
+  if (!process.env.X_API_KEY) {
+    throw new Error("X_API_KEY must be defined");
+  }
 
   return {
     openAiApiKey: process.env.OPENAI_API_KEY,
@@ -25,5 +28,6 @@ export function parseConfig(): Config {
     corsAllowedOrigin: process.env.CORS_ALLOWED_ORIGIN,
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+    xApiKey: process.env.X_API_KEY,
   } as Config;
 }

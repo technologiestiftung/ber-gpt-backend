@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(corsMiddleware(config));
 app.use(rateLimitMiddleware(config));
-app.use(basicAuthMiddleware);
+app.use(basicAuthMiddleware(config));
 
 app.use("/", healthRoutes);
 app.use("/chat", chatRoutes);
@@ -29,5 +29,5 @@ app.use("/auth", authRoutes);
 app.use("/chat-with-document", chatWithDocumentRoutes);
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.info(`Server is running on port ${port}`);
 });
