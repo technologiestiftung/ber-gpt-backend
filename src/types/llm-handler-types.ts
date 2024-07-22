@@ -5,5 +5,4 @@ export interface LLMHandler {
     messages: ChatMessage[],
     response_format?: string
   ): Promise<ChatResponse>;
-  embed(text: string): Promise<Array<number>>;
 }
