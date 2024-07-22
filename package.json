@@ -8,7 +8,6 @@
     "dev": "nodemon src/index.ts"
   },
   "dependencies": {
-    "@opendocsg/pdf2md": "0.1.31",
     "@supabase/supabase-js": "2.44.4",
     "axios": "1.7.2",
     "body-parser": "1.20.2",
@@ -16,7 +15,8 @@
     "cors": "^2.8.5",
     "express": "4.19.2",
     "express-rate-limit": "7.3.1",
-    "multer": "1.4.5-lts.1"
+    "multer": "1.4.5-lts.1",
+    "pdf-parse": "1.1.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "1.4.7",
@@ -24,6 +24,7 @@
     "@types/express": "4.17.21",
     "@types/multer": "1.4.11",
     "@types/node": "14.18.63",
+    "@types/pdf-parse": "1.1.4",
     "nodemon": "3.1.4",
     "ts-loader": "9.5.1",
     "ts-node": "10.9.2",
