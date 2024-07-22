@@ -35,7 +35,7 @@ export class OpenAILLMHandler implements LLMHandler {
       const response: AxiosResponse<ChatResponse> = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-3.5-turbo",
+          model: "gpt-4o-mini",
           messages,
           response_format: responseFormat ? { type: responseFormat } : null,
         },

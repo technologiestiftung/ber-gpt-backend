@@ -1,4 +1,3 @@
-import { SupabaseClient } from "@supabase/supabase-js";
 import { Request, Response } from "express";
 import { processDocument } from "../utils/process-document";
 
@@ -51,6 +50,8 @@ export const uploadFile = async (req: Request, res: Response) => {
         .json({ error: insertRegisteredDocumentError.message });
     }
 
+    // START Asynchronously process the uploaded document
+    // -------
     console.log(
       `Starting processing of uploaded file ${publicURLData.publicUrl}...`
     );
@@ -66,6 +67,7 @@ export const uploadFile = async (req: Request, res: Response) => {
         );
         console.error(error);
       });
+    // ------- END Asynchronously process the uploaded document
 
     res.json({ publicURL: publicURLData.publicUrl });
   } catch (error) {

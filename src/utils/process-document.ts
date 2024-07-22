@@ -24,14 +24,16 @@ export async function processDocument(
   );
   fs.mkdirSync(tempFolderPath, { recursive: true });
 
-  const fullPath = `${user.id}/${registeredDocument.source_url
+  // Download the document from the storage bucket
+  const documentPathInBucket = `${user.id}/${registeredDocument.source_url
     .split("/")
     .pop()}`;
 
   const { data, error } = await authenticatedSupabaseClient.storage
     .from("documents")
-    .download(fullPath);
+    .download(documentPathInBucket);
 
+  // Extract the document
   const extractionResult = await extract(
     data as Blob,
     registeredDocument,
@@ -59,6 +61,7 @@ export async function processDocument(
     processedDocument: insertProcessedDocumentData,
   };
 
+  // Summarize the document
   const summary = await summarize(fullExtractionResult);
 
   const { error: insertSummaryError } = await authenticatedSupabaseClient
@@ -71,6 +74,7 @@ export async function processDocument(
       user_id: user.id,
     });
 
+  // Embedd the document
   const embeddResult = await embedd(fullExtractionResult);
 
   const { error: embeddInsertError } = await authenticatedSupabaseClient
@@ -88,6 +92,7 @@ export async function processDocument(
       })
     );
 
+  // Error handling
   if (
     error ||
     insertProcessedDocumentError ||
@@ -102,6 +107,8 @@ export async function processDocument(
           embeddInsertError
       )
     );
+
+    // Register the document as processed with errors
     await authenticatedSupabaseClient
       .from("processed_documents")
       .update({
@@ -112,6 +119,7 @@ export async function processDocument(
       .select("*")
       .single();
 
+    // Cleanup
     if (fs.existsSync(tempFolderPath)) {
       fs.rmSync(tempFolderPath, { force: true, recursive: true });
     }
@@ -119,6 +127,7 @@ export async function processDocument(
     throw new Error(`Failed to process file`);
   }
 
+  // Register the document as successfully processed
   await authenticatedSupabaseClient
     .from("processed_documents")
     .update({
@@ -128,6 +137,7 @@ export async function processDocument(
     .select("*")
     .single();
 
+  // Cleanup
   if (fs.existsSync(tempFolderPath)) {
     fs.rmSync(tempFolderPath, { force: true, recursive: true });
   }
