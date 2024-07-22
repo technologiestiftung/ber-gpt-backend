@@ -18,7 +18,7 @@ This project serves as the backend for the "BärGPT" project. It exposes various
 
 ## Installation
 
-- `git clone git@github.com:technologiestiftung/ber-gpt.git`
+- `git clone git@github.com:technologiestiftung/ber-gpt-backend .git`
 - `nvm install`
 - `nvm use` 
 - `npm install`
@@ -62,8 +62,6 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 Texts and content available as [CC BY](https://creativecommons.org/licenses/by/3.0/de/).
 
-Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
-
 ## Credits
 
 <table>
@@ -93,3 +91,5 @@ Illustrations by {MARIA_MUSTERFRAU}, all rights reserved.
 </table>
 
 ## Related Projects
+
+- BärGPT Frontend (https://github.com/technologiestiftung/ber-gpt-frontend)
