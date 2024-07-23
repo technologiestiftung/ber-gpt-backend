@@ -17,6 +17,7 @@ export const chatWithLLM = async (
   try {
     const llmStream = await llmHandler.chatCompletion(messages);
     await pipeline(llmStream, res);
+    return;
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to call LLM" });
