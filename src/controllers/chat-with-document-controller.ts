@@ -22,7 +22,7 @@ export const chatWithDocument = async (req: Request, res: Response) => {
 
     const systemMessages: ChatMessage[] = [
       {
-        role: "system",
+        role: "user", // We already have a default "system" message, only one is allowed. So we use "user" instead.
         content: `
 Du bist ein Assistent, der in der Lage ist, verschiedene Aufgaben im Zusammenhang mit Dokumenten zu übernehmen,
 wie das Zusammenfassen von Inhalten, das Extrahieren wichtiger Informationen und das Bereitstellen detaillierter

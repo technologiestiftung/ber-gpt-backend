@@ -5,7 +5,7 @@ const corsMiddleware = (config: Config) => {
   const corsOptions = {
     origin: config.corsAllowedOrigin,
     methods: "GET,POST",
-    allowedHeaders: "Content-Type,Authorization,x-api-key",
+    allowedHeaders: "Content-Type,Authorization,x-api-key,llm",
     optionsSuccessStatus: 200,
   };
 
