@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import { pipeline } from "node:stream/promises";
-import { globalLlmHandler } from "..";
+import { LLMType, getLlmHandler } from "../llm-handlers/choose-llm-handler";
 import { ChatMessage } from "../types/chat-types";
 import { extract } from "../utils/extract-document";
 
 export const chatWithDocument = async (req: Request, res: Response) => {
+  const llm = req.headers["llm"] as LLMType;
+  const llmHandler = getLlmHandler(llm);
+
   const { file } = req;
 
   if (!file) {
@@ -35,7 +38,7 @@ Beantworte die folgenden Fragen nur mit Informationen aus dem Dokument.
 
     const allMessages = systemMessages.concat(userMessages);
 
-    const llmStream = await globalLlmHandler.chatCompletion(allMessages);
+    const llmStream = await llmHandler.chatCompletion(allMessages);
 
     await pipeline(llmStream, res);
   } catch (error) {

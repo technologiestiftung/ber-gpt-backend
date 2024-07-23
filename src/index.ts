@@ -1,3 +1,4 @@
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import express from "express";
 import basicAuthMiddleware from "./middleware/basic-auth-middleware";
@@ -9,18 +10,8 @@ import chatWithDocumentRoutes from "./routes/chat-with-document-routes";
 import healthRoutes from "./routes/health-routes";
 import { Config } from "./types/config-types";
 import { parseConfig } from "./utils/parse-config";
-import bodyParser from "body-parser";
-import { OpenAILLMHandler } from "./llm-handlers/openai-handler";
-import { AzureLLMHandler } from "./llm-handlers/azure-llm-handler";
 
 export const config: Config = parseConfig();
-
-// Decide which LLM handler to use based on the config
-let llmHandler = new OpenAILLMHandler();
-if (config.useAzureLlm) {
-  llmHandler = new AzureLLMHandler();
-}
-export const globalLlmHandler = llmHandler;
 
 const app = express();
 const port = 3000;
@@ -38,7 +29,5 @@ app.use("/auth", authRoutes);
 app.use("/chat-with-document", chatWithDocumentRoutes);
 
 app.listen(port, () => {
-  console.info(
-    `Server is running on port ${port}, using ${llmHandler.constructor.name}...`
-  );
+  console.info(`Server is running on port ${port}...`);
 });
