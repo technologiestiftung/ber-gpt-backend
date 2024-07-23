@@ -10,17 +10,8 @@ export function parseConfig(): Config {
   if (!process.env.CORS_ALLOWED_ORIGIN) {
     throw new Error("CORS_ALLOWED_ORIGIN must be defined");
   }
-  if (!process.env.SUPABASE_URL) {
-    throw new Error("SUPABASE_URL must be defined");
-  }
-  if (!process.env.SUPABASE_ANON_KEY) {
-    throw new Error("SUPABASE_ANON_KEY must be defined");
-  }
   if (!process.env.X_API_KEY) {
     throw new Error("X_API_KEY must be defined");
-  }
-  if (!process.env.USE_AZURE_LLM) {
-    throw new Error("USE_AZURE_LLM must be defined");
   }
   if (!process.env.AZURE_LLM_API_KEY) {
     throw new Error("AZURE_LLM_API_KEY must be defined");
@@ -32,7 +23,6 @@ export function parseConfig(): Config {
     throw new Error("OPENAI_ENDPOINT must be defined");
   }
   return {
-    useAzureLlm: process.env.USE_AZURE_LLM === "true",
     azureLlmApiKey: process.env.AZURE_LLM_API_KEY,
     azureLlmEndpoint: process.env.AZURE_LLM_ENDPOINT,
     openAiEndpoint: process.env.OPENAI_ENDPOINT,
