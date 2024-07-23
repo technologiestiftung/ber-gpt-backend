@@ -19,8 +19,23 @@ export function parseConfig(): Config {
   if (!process.env.X_API_KEY) {
     throw new Error("X_API_KEY must be defined");
   }
-
+  if (!process.env.USE_AZURE_LLM) {
+    throw new Error("USE_AZURE_LLM must be defined");
+  }
+  if (!process.env.AZURE_LLM_API_KEY) {
+    throw new Error("AZURE_LLM_API_KEY must be defined");
+  }
+  if (!process.env.AZURE_LLM_ENDPOINT) {
+    throw new Error("AZURE_LLM_BASE_ENDPOINT must be defined");
+  }
+  if (!process.env.OPENAI_ENDPOINT) {
+    throw new Error("OPENAI_ENDPOINT must be defined");
+  }
   return {
+    useAzureLlm: process.env.USE_AZURE_LLM === "true",
+    azureLlmApiKey: process.env.AZURE_LLM_API_KEY,
+    azureLlmEndpoint: process.env.AZURE_LLM_ENDPOINT,
+    openAiEndpoint: process.env.OPENAI_ENDPOINT,
     openAiApiKey: process.env.OPENAI_API_KEY,
     rateLimitRequestsPerMinute: parseInt(
       process.env.RATE_LIMIT_REQUESTS_PER_MINUTE!

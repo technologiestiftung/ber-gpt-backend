@@ -5,6 +5,7 @@ export interface ChatMessage {
 
 export interface ChatRequest {
   messages: ChatMessage[];
+  stream: boolean;
 }
 
 export interface ChatChoice {

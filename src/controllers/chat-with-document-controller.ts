@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
-import { OpenAILLMHandler } from "../llm-handlers/openai-handler";
-import { ChatMessage, ChatResponse } from "../types/chat-types";
-import { LLMHandler } from "../types/llm-handler-types";
-import { extract } from "../utils/extract-document";
 import { pipeline } from "node:stream/promises";
-
-const llmHandler: LLMHandler = new OpenAILLMHandler();
+import { globalLlmHandler } from "..";
+import { ChatMessage } from "../types/chat-types";
+import { extract } from "../utils/extract-document";
 
 export const chatWithDocument = async (req: Request, res: Response) => {
   const { file } = req;
@@ -38,7 +35,7 @@ Beantworte die folgenden Fragen nur mit Informationen aus dem Dokument.
 
     const allMessages = systemMessages.concat(userMessages);
 
-    const llmStream = await llmHandler.chatCompletion(allMessages);
+    const llmStream = await globalLlmHandler.chatCompletion(allMessages);
 
     await pipeline(llmStream, res);
   } catch (error) {
