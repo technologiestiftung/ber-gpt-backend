@@ -4,9 +4,8 @@ import express from "express";
 import basicAuthMiddleware from "./middleware/basic-auth-middleware";
 import corsMiddleware from "./middleware/cors";
 import rateLimitMiddleware from "./middleware/rate-limit";
-import authRoutes from "./routes/auth-routes";
 import chatRoutes from "./routes/chat-routes";
-import chatWithDocumentRoutes from "./routes/chat-with-document-routes";
+import documentRoutes from "./routes/document-routes";
 import healthRoutes from "./routes/health-routes";
 import { Config } from "./types/config-types";
 import { parseConfig } from "./utils/parse-config";
@@ -25,8 +24,7 @@ app.use(basicAuthMiddleware(config));
 
 app.use("/", healthRoutes);
 app.use("/chat", chatRoutes);
-app.use("/auth", authRoutes);
-app.use("/chat-with-document", chatWithDocumentRoutes);
+app.use("/documents", documentRoutes);
 
 app.listen(port, () => {
   console.info(`Server is running on port ${port}...`);
