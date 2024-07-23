@@ -17,9 +17,14 @@ export const chatWithLLM = async (
   try {
     const llmStream = await llmHandler.chatCompletion(messages);
     await pipeline(llmStream, res);
-    return;
   } catch (error) {
     console.error(error);
+    // When using streams, the pipeline function can finish writing the response
+    // and close the connection, leading to an error when attempt to send
+    // another response in the catch block. This check prevents that.
+    if (res.headersSent) {
+      return;
+    }
     res.status(500).json({ error: "Failed to call LLM" });
   }
 };
