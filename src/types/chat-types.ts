@@ -27,5 +27,11 @@ export interface ChatResponse {
 }
 
 export interface ChatErrorResponse {
+  message: string;
+  code: string;
+  status: number;
+}
+
+export interface ErrorResponse {
   error: string;
 }

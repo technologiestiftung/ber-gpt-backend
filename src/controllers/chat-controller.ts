@@ -5,19 +5,27 @@ import {
   ChatErrorResponse,
   ChatRequest,
   ChatResponse,
+  ErrorResponse,
 } from "../types/chat-types";
 
 export const chatWithLLM = async (
   req: Request<{}, {}, ChatRequest>,
-  res: Response<ChatResponse | ChatErrorResponse>
+  res: Response<ChatResponse | ChatErrorResponse | ErrorResponse>
 ) => {
   const llm = req.headers["llm"] as LLMType;
   const { messages } = req.body;
   const llmHandler = getLlmHandler(llm);
   try {
-    const llmStream = await llmHandler.chatCompletion(messages);
-    await pipeline(llmStream, res);
-  } catch (error) {
+    const llmRespone = await llmHandler.chatCompletion(messages);
+    if (llmRespone.stream) {
+      await pipeline(llmRespone.stream, res);
+      return;
+    }
+    if (llmRespone.error) {
+      res.status(400).json(llmRespone.error);
+      return;
+    }
+  } catch (error: any) {
     console.error(error);
     // When using streams, the pipeline function can finish writing the response
     // and close the connection, leading to an error when attempt to send
