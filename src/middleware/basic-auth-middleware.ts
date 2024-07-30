@@ -6,13 +6,21 @@ const basicAuthMiddleware =
     const xApiKeyInHeader = req.headers["x-api-key"];
 
     if (!xApiKeyInHeader) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return res.status(401).json({
+        message: "Unauthorized",
+        code: "unauthorized",
+        status: 401,
+      });
     }
 
     const validXApiKey = config.xApiKey;
 
     if (xApiKeyInHeader !== validXApiKey) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return res.status(401).json({
+        message: "Unauthorized",
+        code: "unauthorized",
+        status: 401,
+      });
     }
 
     next();

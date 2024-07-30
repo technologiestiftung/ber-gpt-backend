@@ -5,24 +5,25 @@ import {
   ChatErrorResponse,
   ChatRequest,
   ChatResponse,
-  ErrorResponse,
 } from "../types/chat-types";
 
 export const chatWithLLM = async (
   req: Request<{}, {}, ChatRequest>,
-  res: Response<ChatResponse | ChatErrorResponse | ErrorResponse>
+  res: Response<ChatResponse | ChatErrorResponse>
 ) => {
-  const llm = req.headers["llm"] as LLMType;
-  const { messages } = req.body;
-  const llmHandler = getLlmHandler(llm);
   try {
+    const llm = req.headers["llm"] as LLMType;
+    const { messages } = req.body;
+    const llmHandler = getLlmHandler(llm);
+
     const llmRespone = await llmHandler.chatCompletion(messages);
     if (llmRespone.stream) {
       await pipeline(llmRespone.stream, res);
       return;
     }
+
     if (llmRespone.error) {
-      res.status(400).json(llmRespone.error);
+      res.status(llmRespone.status).json(llmRespone.error);
       return;
     }
   } catch (error: any) {
@@ -33,6 +34,10 @@ export const chatWithLLM = async (
     if (res.headersSent) {
       return;
     }
-    res.status(500).json({ error: "Failed to call LLM" });
+    res.status(500).json({
+      message: "Unexpected error while calling LLM.",
+      code: "failed_to_call_llm",
+      status: 500,
+    });
   }
 };

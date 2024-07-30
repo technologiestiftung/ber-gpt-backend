@@ -3,10 +3,12 @@ import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
+import { toCustomError } from "./azure-llm-handler-utils";
 
 export class AzureLLMHandler implements LLMHandler {
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {
     let endpoint = `${config.azureLlmEndpoint}&api-key=${config.azureLlmApiKey}`;
+
     const messagesWithSystemPromps = [
       { role: "system", content: SYSTEM_PROMPT },
     ].concat(messages);
@@ -24,26 +26,15 @@ export class AzureLLMHandler implements LLMHandler {
         }),
       });
 
-      if (response.status === 400) {
-        const rawError = await response.json();
-        console.log(rawError);
-        if (rawError.error.code === "content_filter") {
-          return {
-            status: response.status,
-            error: {
-              message: "Message contains inappropriate content",
-              code: "inappropriate_content",
-              status: 400,
-            },
-            stream: undefined,
-          };
-        }
-        throw new Error(`Bad request to Azure LLM`);
+      if (response.status !== 200) {
+        const customError = await toCustomError(response);
+        return customError;
       }
 
       if (!response.body) {
         throw new Error(`Empty response body from Azure LLM`);
       }
+
       return {
         status: response.status,
         error: undefined,
