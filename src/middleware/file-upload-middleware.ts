@@ -11,9 +11,11 @@ const fileFilter = (req: any, file: any, cb: any) => {
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb(
-      "Error: File upload only supports the following filetypes - " + filetypes
+    const error = new Error(
+      "Error: File upload only supports the following filetypes - pdf"
     );
+    (error as any).code = "UNSUPPORTED_FILETYPE";
+    cb(error);
   }
 };
 
