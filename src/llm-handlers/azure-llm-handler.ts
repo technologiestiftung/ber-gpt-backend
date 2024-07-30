@@ -3,7 +3,7 @@ import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
-import { toCustomError } from "./azure-llm-handler-utils";
+import { toCustomError } from "./llm-handler-utils";
 
 export class AzureLLMHandler implements LLMHandler {
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {

@@ -3,6 +3,7 @@ import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
+import { toCustomError } from "./llm-handler-utils";
 
 export class OpenAILLMHandler implements LLMHandler {
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {
@@ -46,12 +47,17 @@ export class OpenAILLMHandler implements LLMHandler {
           Authorization: `Bearer ${config.openAiApiKey}`,
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
+          model: "gpt-3.5-turbo-16k",
           messages: messagesWithSystemPromps,
           temperature: 0,
           stream: true,
         }),
       });
+
+      if (response.status !== 200) {
+        const customError = await toCustomError(response);
+        return customError;
+      }
 
       if (!response.body) {
         throw new Error(`Failed to call OpenAI LLM`);
