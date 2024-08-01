@@ -47,7 +47,7 @@ export class OpenAILLMHandler implements LLMHandler {
           Authorization: `Bearer ${config.openAiApiKey}`,
         },
         body: JSON.stringify({
-          model: "gpt-3.5-turbo-16k",
+          model: "gpt-4o-mini",
           messages: messagesWithSystemPromps,
           temperature: 0,
           stream: true,
