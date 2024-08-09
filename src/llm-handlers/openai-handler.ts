@@ -49,7 +49,7 @@ export class OpenAILLMHandler implements LLMHandler {
         body: JSON.stringify({
           model: "gpt-4o",
           messages: messagesWithSystemPromps,
-          temperature: 0,
+          temperature: 0.7,
           stream: true,
         }),
       });
