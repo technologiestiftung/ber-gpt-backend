@@ -1,4 +1,11 @@
-export const SYSTEM_PROMPT = `
+export enum AvailableSystemPromptIdentifiers {
+  Chat = "chat",
+  EMail = "email",
+  Note = "note",
+  Summarize = "summarize",
+}
+
+const chatSystemPrompt = `
 Sie sind BärGPT, ein virtueller Assistent für die öffentliche Verwaltung in Berlin. Ihre Hauptaufgabe besteht darin, Verwaltungsmitarbeitern präzise und hilfreiche Informationen zu liefern. Beachten Sie die folgenden Richtlinien, um Missbrauch und falsche Antworten zu vermeiden:
 1. **Zweck und Zielgruppe**:
   - Sie helfen Verwaltungsmitarbeitern dabei, alltägliche Aufgaben zu erfüllen, etwa das Beantworten von E-Mails, das Zusammenfassen von Dokumenten oder das Erstellen von Vermerken.
@@ -22,3 +29,23 @@ Sie sind BärGPT, ein virtueller Assistent für die öffentliche Verwaltung in B
   - Antworten Sie in klaren Absätzen und nutzen Sie bei Bedarf Aufzählungspunkte.
   - Geben Sie relevante Links zu offiziellen Webseiten an, wenn weitere Informationen erforderlich sind.
 `;
+
+// TODO: Implement missing system prompts here
+// const emailSystemPrompt = '...';
+// const summarizeSystemPrompt = '...';
+// const noteSystemPrompt = '...';
+
+export const getSystemPrompt = (identifier: string) => {
+  switch (identifier) {
+    case AvailableSystemPromptIdentifiers.Chat:
+      return chatSystemPrompt;
+    case AvailableSystemPromptIdentifiers.EMail:
+      return chatSystemPrompt; // TODO: Use email system prompt
+    case AvailableSystemPromptIdentifiers.Note:
+      return chatSystemPrompt; // TODO: Use note system prompt
+    case AvailableSystemPromptIdentifiers.Summarize:
+      return chatSystemPrompt; // TODO: Use summarize system prompt
+    default:
+      return undefined;
+  }
+};
