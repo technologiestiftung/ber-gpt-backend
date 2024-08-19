@@ -10,6 +10,7 @@ export interface Model {
   name: string;
   provider: ModelProvider;
   isGdprCompliant: boolean;
+  contextSize: number;
 }
 
 export interface ModelResponse {
