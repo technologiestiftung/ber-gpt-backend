@@ -3,6 +3,7 @@ import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
+import { LLM_PARAMETERS } from "./constants";
 import { toCustomError } from "./llm-handler-utils";
 
 export class OpenAILLMHandler implements LLMHandler {
@@ -49,8 +50,8 @@ export class OpenAILLMHandler implements LLMHandler {
         body: JSON.stringify({
           model: "gpt-4o",
           messages: messagesWithSystemPromps,
-          temperature: 0.7,
-          stream: true,
+          temperature: LLM_PARAMETERS.temperature,
+          stream: LLM_PARAMETERS.stream,
         }),
       });
 

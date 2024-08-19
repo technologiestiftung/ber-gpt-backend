@@ -3,6 +3,7 @@ import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
+import { LLM_PARAMETERS } from "./constants";
 import { toCustomError } from "./llm-handler-utils";
 
 export class AzureLLMHandler implements LLMHandler {
@@ -21,8 +22,8 @@ export class AzureLLMHandler implements LLMHandler {
         },
         body: JSON.stringify({
           messages: messagesWithSystemPromps,
-          temperature: 0,
-          stream: true,
+          temperature: LLM_PARAMETERS.temperature,
+          stream: LLM_PARAMETERS.stream,
         }),
       });
 

@@ -8,6 +8,7 @@ import documentRoutes from "./routes/document-routes";
 import healthRoutes from "./routes/health-routes";
 import { Config } from "./types/config-types";
 import { parseConfig } from "./utils/parse-config";
+import modelRoutes from "./routes/model-routes";
 
 export const config: Config = parseConfig();
 
@@ -23,6 +24,7 @@ app.use(basicAuthMiddleware(config));
 app.use("/", healthRoutes);
 app.use("/chat", chatRoutes);
 app.use("/documents", documentRoutes);
+app.use("/models", modelRoutes);
 
 app.listen(port, () => {
   console.info(`Server is running on port ${port}...`);
