@@ -7,8 +7,16 @@ import { LLM_PARAMETERS } from "./constants";
 import { toCustomError } from "./llm-handler-utils";
 
 export class AzureLLMHandler implements LLMHandler {
+  model: string;
+  endpoint: string;
+
+  constructor(model: string, endpoint: string) {
+    this.model = model;
+    this.endpoint = endpoint;
+  }
+
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {
-    let endpoint = `${config.azureLlmEndpoint}&api-key=${config.azureLlmApiKey}`;
+    let endpoint = `${this.endpoint}&api-key=${config.azureLlmApiKey}`;
 
     const messagesWithSystemPromps = [
       { role: "system", content: SYSTEM_PROMPT },

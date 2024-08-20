@@ -7,14 +7,21 @@ import { LLM_PARAMETERS } from "./constants";
 import { toCustomError } from "./llm-handler-utils";
 
 export class OpenAILLMHandler implements LLMHandler {
+  model: string;
+  endpoint: string;
+
+  constructor(model: string, endpoint: string) {
+    this.model = model;
+    this.endpoint = endpoint;
+  }
+
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {
-    let endpoint = config.openAiEndpoint;
     const messagesWithSystemPromps = [
       { role: "system", content: SYSTEM_PROMPT },
     ].concat(messages);
     try {
       // Check if the message contains inappropriate content by using the /moderations endpoint
-      const moderationsResponse = await fetch(`${endpoint}/moderations`, {
+      const moderationsResponse = await fetch(`${this.endpoint}/moderations`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,14 +48,14 @@ export class OpenAILLMHandler implements LLMHandler {
       }
 
       // If message is clean, use the chat/completions endpoint to get a response
-      const response = await fetch(`${endpoint}/chat/completions`, {
+      const response = await fetch(`${this.endpoint}/chat/completions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${config.openAiApiKey}`,
         },
         body: JSON.stringify({
-          model: "gpt-4o",
+          model: this.model,
           messages: messagesWithSystemPromps,
           temperature: LLM_PARAMETERS.temperature,
           stream: LLM_PARAMETERS.stream,

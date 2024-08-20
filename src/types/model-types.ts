@@ -7,7 +7,7 @@ export enum ModelProvider {
 
 export interface Model {
   identifier: string;
-  name: string;
+  baseModelName: string;
   provider: ModelProvider;
   isGdprCompliant: boolean;
   contextSize: number;

@@ -16,15 +16,19 @@ export function parseConfig(): Config {
   if (!process.env.AZURE_LLM_API_KEY) {
     throw new Error("AZURE_LLM_API_KEY must be defined");
   }
-  if (!process.env.AZURE_LLM_ENDPOINT) {
-    throw new Error("AZURE_LLM_BASE_ENDPOINT must be defined");
+  if (!process.env.AZURE_LLM_ENDPOINT_GPT_35_TURBO) {
+    throw new Error("AZURE_LLM_ENDPOINT_GPT_35_TURBO must be defined");
+  }
+  if (!process.env.AZURE_LLM_ENDPOINT_GPT_4O_MINI) {
+    throw new Error("AZURE_LLM_ENDPOINT_GPT_4O_MINI must be defined");
   }
   if (!process.env.OPENAI_ENDPOINT) {
     throw new Error("OPENAI_ENDPOINT must be defined");
   }
   return {
     azureLlmApiKey: process.env.AZURE_LLM_API_KEY,
-    azureLlmEndpoint: process.env.AZURE_LLM_ENDPOINT,
+    azureLlmEndpointGpt35Turbo: process.env.AZURE_LLM_ENDPOINT_GPT_35_TURBO,
+    azureLlmEndpointGpt4oMini: process.env.AZURE_LLM_ENDPOINT_GPT_4O_MINI,
     openAiEndpoint: process.env.OPENAI_ENDPOINT,
     openAiApiKey: process.env.OPENAI_API_KEY,
     rateLimitRequestsPerMinute: parseInt(

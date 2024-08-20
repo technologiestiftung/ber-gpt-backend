@@ -1,7 +1,8 @@
 export interface Config {
   useAzureLlm: boolean;
   azureLlmApiKey: string;
-  azureLlmEndpoint: string;
+  azureLlmEndpointGpt35Turbo: string;
+  azureLlmEndpointGpt4oMini: string;
   openAiEndpoint: string;
   openAiApiKey: string;
   rateLimitRequestsPerMinute: number;

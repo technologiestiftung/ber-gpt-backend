@@ -7,6 +7,8 @@ export interface LLMResponse {
 }
 
 export interface LLMHandler {
+  model: string;
+  endpoint: string;
   chatCompletion(messages: ChatMessage[]): Promise<LLMResponse>;
 }
 
