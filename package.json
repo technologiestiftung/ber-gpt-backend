@@ -22,6 +22,8 @@
     "@types/multer": "1.4.11",
     "@types/node": "20.14.11",
     "@types/pdf-parse": "1.1.4",
+    "@technologiestiftung/semantic-release-config": "1.2.4",
+    "@saithodev/semantic-release-backmerge": "4.0.1",
     "nodemon": "3.1.4",
     "semantic-release": "24.1.0",
     "ts-loader": "9.5.1",

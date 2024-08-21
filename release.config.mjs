@@ -1,3 +1,4 @@
+// eslint-disable-next-line @technologiestiftung/no-default-export
 export default {
   extends: "@technologiestiftung/semantic-release-config",
   branches: [
