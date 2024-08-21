@@ -17,6 +17,7 @@
     "pdf-parse": "1.1.1"
   },
   "devDependencies": {
+    "@saithodev/semantic-release-backmerge": "4.0.1",
     "@semantic-release/github": "10.1.7",
     "@technologiestiftung/semantic-release-config": "1.2.4",
     "@types/cors": "2.8.17",

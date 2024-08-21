@@ -5,4 +5,13 @@ export default {
     { name: "main" },
     { name: "staging", channel: "pre/rc", prerelease: "rc" },
   ],
+  plugins: [
+    [
+      "@saithodev/semantic-release-backmerge",
+      {
+        backmergeBranches: [{ from: "main", to: "staging" }],
+        backmergeStrategy: "merge",
+      },
+    ],
+  ],
 };
