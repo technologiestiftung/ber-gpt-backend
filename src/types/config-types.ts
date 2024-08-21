@@ -5,6 +5,8 @@ export interface Config {
   azureLlmEndpointGpt4oMini: string;
   openAiEndpoint: string;
   openAiApiKey: string;
+  ollamaApiEndpoint: string;
+  ollamaApiKey: string;
   rateLimitRequestsPerMinute: number;
   corsAllowedOrigin: string;
   supabaseUrl: string;
