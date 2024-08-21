@@ -3,6 +3,7 @@ import { LLMParameters } from "../llm-handlers/constants";
 export enum ModelProvider {
   OpenAI = "OpenAI",
   Azure = "Azure",
+  Ollama = "Ollama",
 }
 
 export interface Model {

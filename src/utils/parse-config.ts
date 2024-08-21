@@ -25,12 +25,20 @@ export function parseConfig(): Config {
   if (!process.env.OPENAI_ENDPOINT) {
     throw new Error("OPENAI_ENDPOINT must be defined");
   }
+  if (!process.env.OLLAMA_API_ENDPOINT) {
+    throw new Error("OLLAMA_API_ENDPOINT must be defined");
+  }
+  if (!process.env.OLLAMA_API_KEY) {
+    throw new Error("OLLAMA_API_KEY must be defined");
+  }
   return {
     azureLlmApiKey: process.env.AZURE_LLM_API_KEY,
     azureLlmEndpointGpt35Turbo: process.env.AZURE_LLM_ENDPOINT_GPT_35_TURBO,
     azureLlmEndpointGpt4oMini: process.env.AZURE_LLM_ENDPOINT_GPT_4O_MINI,
     openAiEndpoint: process.env.OPENAI_ENDPOINT,
     openAiApiKey: process.env.OPENAI_API_KEY,
+    ollamaApiEndpoint: process.env.OLLAMA_API_ENDPOINT,
+    ollamaApiKey: process.env.OLLAMA_API_KEY,
     rateLimitRequestsPerMinute: parseInt(
       process.env.RATE_LIMIT_REQUESTS_PER_MINUTE!
     ),
