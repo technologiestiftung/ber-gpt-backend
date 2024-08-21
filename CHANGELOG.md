@@ -1,3 +1,11 @@
+# [1.0.0-rc.2](https://github.com/technologiestiftung/ber-gpt-backend/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2024-08-21)
+
+
+### Bug Fixes
+
+* build before release ([89d38fd](https://github.com/technologiestiftung/ber-gpt-backend/commit/89d38fd4e76aff333a27781e5cc1b6872a1eea8e))
+* upgrade node to v22.5.1 ([3ac596b](https://github.com/technologiestiftung/ber-gpt-backend/commit/3ac596bcf3c00faeb0ccd191dbf6c1d13a61f01d))
+
 # 1.0.0-rc.1 (2024-08-21)
 
 
