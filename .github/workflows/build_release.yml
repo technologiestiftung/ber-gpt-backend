@@ -18,18 +18,18 @@ jobs:
           node-version-file: ".nvmrc"
       - name: build
         run: npm run build
-    release:
-      needs: [build]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            persist-credentials: false
-        - uses: actions/setup-node@v4
-          with:
-            node-version-file: ".nvmrc"
-        - run: |
-            npm ci
-            npx semantic-release --ci
-          env:
-            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  release:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: |
+          npm ci
+          npx semantic-release --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
