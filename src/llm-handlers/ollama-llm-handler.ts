@@ -27,7 +27,7 @@ export class OllamaLlmHandler implements LLMHandler {
           "x-api-key": config.ollamaApiKey,
         },
         body: JSON.stringify({
-          model: "llama3",
+          model: this.model,
           messages: messagesWithSystemPromps,
           options: { temperature: LLM_PARAMETERS.temperature },
           stream: LLM_PARAMETERS.stream,
