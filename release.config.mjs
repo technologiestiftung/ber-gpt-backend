@@ -13,5 +13,6 @@ export default {
         backmergeStrategy: "merge",
       },
     ],
+    "@semantic-release/github",
   ],
 };
