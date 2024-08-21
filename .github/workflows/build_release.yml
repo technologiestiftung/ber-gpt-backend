@@ -1,4 +1,4 @@
-name: Release
+name: Build & Release
 on:
   push:
     branches:
@@ -9,7 +9,17 @@ permissions:
   contents: read # for checkout
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js from .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+      - run: npm run build
   release:
+    needs: [build]
     name: Release
     runs-on: ubuntu-latest
     permissions:
