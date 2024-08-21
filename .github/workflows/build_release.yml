@@ -1,35 +1,31 @@
-name: Build & Github Release
-permissions:
-  contents: write
-  packages: write
+name: Release
 on:
   push:
-    branches: [main, staging]
-  pull_request:
-    branches: [main, staging]
+    branches:
+      - main
+      - staging
+
+permissions:
+  contents: read # for checkout
+
 jobs:
-  build:
+  release:
+    name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js from .nvmrc
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
-      - name: build
-        run: npm run build
-  release:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
-      - run: |
-          npm ci
-          npx semantic-release --ci
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
