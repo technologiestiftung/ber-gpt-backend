@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { pipeline } from "node:stream/promises";
 import {
-  LLMType,
+  LLMIdentifier,
   resolveLlmHandler,
 } from "../llm-handlers/resolve-llm-handler";
 import {
@@ -15,7 +15,7 @@ export const chatWithLLM = async (
   res: Response<ChatResponse | ChatErrorResponse>
 ) => {
   try {
-    const llm = req.headers["llm"] as LLMType;
+    const llm = req.headers["llm"] as LLMIdentifier;
     const { messages } = req.body;
     const llmHandler = resolveLlmHandler(llm);
 

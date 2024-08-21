@@ -20,7 +20,7 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         contextSize: 128000,
       },
       {
-        identifier: "ollama-llama-3.1",
+        identifier: "citylab-macstudio-llama-3.1",
         baseModelName: "llama3",
         provider: ModelProvider.Ollama,
         isGdprCompliant: true,

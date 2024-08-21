@@ -4,12 +4,12 @@ import { AzureLLMHandler } from "./azure-llm-handler";
 import { config } from "..";
 import { OllamaLlmHandler } from "./ollama-llm-handler";
 
-export type LLMType =
+export type LLMIdentifier =
   | "openai-gpt-4o-mini"
   | "azure-gpt-4o-mini"
   | "citylab-macstudio-llama-3.1";
 
-export const resolveLlmHandler = (llmType: LLMType): LLMHandler => {
+export const resolveLlmHandler = (llmType: LLMIdentifier): LLMHandler => {
   switch (llmType) {
     case "openai-gpt-4o-mini":
       return new OpenAILLMHandler("gpt-4o-mini", config.openAiEndpoint);

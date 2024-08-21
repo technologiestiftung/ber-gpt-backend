@@ -1,4 +1,5 @@
 import { LLMParameters } from "../llm-handlers/constants";
+import { LLMIdentifier } from "../llm-handlers/resolve-llm-handler";
 
 export enum ModelProvider {
   OpenAI = "OpenAI",
@@ -7,7 +8,7 @@ export enum ModelProvider {
 }
 
 export interface Model {
-  identifier: string;
+  identifier: LLMIdentifier;
   baseModelName: string;
   provider: ModelProvider;
   isGdprCompliant: boolean;
