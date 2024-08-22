@@ -19,6 +19,7 @@ jobs:
           node-version-file: ".nvmrc"
       - run: npm run build
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
