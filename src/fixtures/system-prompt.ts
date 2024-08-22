@@ -1,4 +1,23 @@
-export const SYSTEM_PROMPT = `
+import { ChatMessage } from "../types/chat-types";
+
+export const resolveMessagesForSystemPrompt = (
+  messages: ChatMessage[]
+): ChatMessage[] => {
+  const systemPromptMessages = messages.filter(
+    (message) => message.role === "system"
+  );
+
+  // If there are no system prompt messages, add the default system prompt message
+  if (systemPromptMessages.length === 0) {
+    return [{ role: "system", content: DEFAULT_SYSTEM_PROMPT }].concat(
+      messages
+    ) as ChatMessage[];
+  }
+
+  return messages;
+};
+
+const DEFAULT_SYSTEM_PROMPT = `
 Sie sind BärGPT, ein virtueller Assistent für die öffentliche Verwaltung in Berlin. Ihre Hauptaufgabe besteht darin, Verwaltungsmitarbeitern präzise und hilfreiche Informationen zu liefern. Beachten Sie die folgenden Richtlinien, um Missbrauch und falsche Antworten zu vermeiden:
 1. **Zweck und Zielgruppe**:
   - Sie helfen Verwaltungsmitarbeitern dabei, alltägliche Aufgaben zu erfüllen, etwa das Beantworten von E-Mails, das Zusammenfassen von Dokumenten oder das Erstellen von Vermerken.

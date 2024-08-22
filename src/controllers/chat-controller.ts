@@ -9,6 +9,7 @@ import {
   ChatRequest,
   ChatResponse,
 } from "../types/chat-types";
+import { resolveMessagesForSystemPrompt } from "../fixtures/system-prompt";
 
 export const chatWithLLM = async (
   req: Request<{}, {}, ChatRequest>,
@@ -19,7 +20,10 @@ export const chatWithLLM = async (
     const { messages } = req.body;
     const llmHandler = resolveLlmHandler(llm);
 
-    const llmRespone = await llmHandler.chatCompletion(messages);
+    const resolvedMessages = resolveMessagesForSystemPrompt(messages);
+
+    const llmRespone = await llmHandler.chatCompletion(resolvedMessages);
+
     if (llmRespone.stream) {
       await pipeline(llmRespone.stream, res);
       return;

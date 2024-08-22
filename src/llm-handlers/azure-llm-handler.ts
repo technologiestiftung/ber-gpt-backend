@@ -1,5 +1,4 @@
 import { config } from "..";
-import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
@@ -18,10 +17,6 @@ export class AzureLLMHandler implements LLMHandler {
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {
     let endpoint = `${this.endpoint}&api-key=${config.azureLlmApiKey}`;
 
-    const messagesWithSystemPromps = [
-      { role: "system", content: SYSTEM_PROMPT },
-    ].concat(messages);
-
     try {
       const response = await fetch(endpoint, {
         method: "POST",
@@ -29,7 +24,7 @@ export class AzureLLMHandler implements LLMHandler {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          messages: messagesWithSystemPromps,
+          messages: messages,
           temperature: LLM_PARAMETERS.temperature,
           stream: LLM_PARAMETERS.stream,
         }),
