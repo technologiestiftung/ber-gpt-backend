@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npm install && tsc",
     "start": "tsc && node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "test": "tsc && node --test dist/tests/*.test.js"
   },
   "dependencies": {
     "axios": "1.7.4",
