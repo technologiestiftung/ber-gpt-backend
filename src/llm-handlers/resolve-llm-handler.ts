@@ -19,7 +19,7 @@ export const resolveLlmHandler = (llmType: LLMIdentifier): LLMHandler => {
         config.azureLlmEndpointGpt4oMini
       );
     case "citylab-macstudio-llama-3.1":
-      return new OllamaLlmHandler("llama3", config.ollamaApiEndpoint);
+      return new OllamaLlmHandler("llama3.1", config.ollamaApiEndpoint);
     // Fallback to Azure LLM handler if the LLM type is not recognized
     default:
       return new AzureLLMHandler(
