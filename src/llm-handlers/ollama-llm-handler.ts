@@ -1,5 +1,4 @@
 import { config } from "..";
-import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
@@ -16,10 +15,6 @@ export class OllamaLlmHandler implements LLMHandler {
   }
 
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {
-    const messagesWithSystemPromps = [
-      { role: "system", content: SYSTEM_PROMPT },
-    ].concat(messages);
-
     try {
       const response = await fetch(this.endpoint, {
         method: "POST",
@@ -28,7 +23,7 @@ export class OllamaLlmHandler implements LLMHandler {
         },
         body: JSON.stringify({
           model: this.model,
-          messages: messagesWithSystemPromps,
+          messages: messages,
           options: { temperature: LLM_PARAMETERS.temperature },
           stream: LLM_PARAMETERS.stream,
         }),

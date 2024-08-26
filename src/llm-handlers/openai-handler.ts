@@ -1,5 +1,4 @@
 import { config } from "..";
-import { SYSTEM_PROMPT } from "../fixtures/system-prompt";
 import { ChatMessage } from "../types/chat-types";
 import { LLMHandler, LLMResponse } from "../types/llm-handler-types";
 import { convertWebStreamToNodeStream } from "../utils/stream-utils";
@@ -16,9 +15,6 @@ export class OpenAILLMHandler implements LLMHandler {
   }
 
   async chatCompletion(messages: ChatMessage[]): Promise<LLMResponse> {
-    const messagesWithSystemPromps = [
-      { role: "system", content: SYSTEM_PROMPT },
-    ].concat(messages);
     try {
       // Check if the message contains inappropriate content by using the /moderations endpoint
       const moderationsResponse = await fetch(`${this.endpoint}/moderations`, {
@@ -56,7 +52,7 @@ export class OpenAILLMHandler implements LLMHandler {
         },
         body: JSON.stringify({
           model: this.model,
-          messages: messagesWithSystemPromps,
+          messages: messages,
           temperature: LLM_PARAMETERS.temperature,
           stream: LLM_PARAMETERS.stream,
         }),
