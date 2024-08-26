@@ -32,10 +32,10 @@ export const chatWithLLMForMail = async (
           schema: {
             type: "object",
             properties: {
-              final_email: {
+              email_draft: {
                 type: "string",
               },
-              next_step_suggestions: {
+              follow_up_prompts: {
                 type: "array",
                 items: {
                   type: "string",
@@ -48,16 +48,12 @@ export const chatWithLLMForMail = async (
                 },
               },
             },
-            required: [
-              "final_email",
-              "questions_to_user",
-              "next_step_suggestions",
-            ],
+            required: ["email_draft", "questions_to_user", "follow_up_prompts"],
           },
         },
       },
     }),
   });
   const jsonResponse = await response.json();
-  res.status(200).json(jsonResponse);
+  res.status(200).json(JSON.parse(jsonResponse.choices[0].message.content));
 };
