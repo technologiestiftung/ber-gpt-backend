@@ -5,6 +5,7 @@ import {
   ChatResponse,
 } from "../types/chat-types";
 import { resolveMessagesForSystemPrompt } from "../fixtures/system-prompt";
+import { config } from "..";
 
 export const chatWithLLMForMail = async (
   req: Request<{}, {}, ChatRequest>,
@@ -12,11 +13,11 @@ export const chatWithLLMForMail = async (
 ) => {
   const { messages } = req.body;
   const resolvedMessages = resolveMessagesForSystemPrompt(messages);
-  const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+  const response = await fetch(`${config.openAiEndpoint}/chat/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer sk-proj-hwa3UME7hpwNDEyY81YBT3BlbkFJZsoS3LFIb8Y8k8WuhFfP`,
+      Authorization: `Bearer ${config.openAiApiKey}`,
     },
 
     body: JSON.stringify({
@@ -57,7 +58,6 @@ export const chatWithLLMForMail = async (
       },
     }),
   });
-  const x = await response.json();
-  console.log(JSON.stringify(x));
-  res.status(200).json(x);
+  const jsonResponse = await response.json();
+  res.status(200).json(jsonResponse);
 };
