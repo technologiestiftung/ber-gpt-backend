@@ -11,6 +11,8 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         provider: ModelProvider.OpenAI,
         isGdprCompliant: false,
         contextSize: 128000,
+        isOpenSource: false,
+        serverLocation: "USA",
       },
       {
         identifier: "azure-gpt-4o-mini",
@@ -18,6 +20,8 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         provider: ModelProvider.Azure,
         isGdprCompliant: true,
         contextSize: 128000,
+        isOpenSource: false,
+        serverLocation: "Schweden",
       },
       {
         identifier: "citylab-macstudio-llama-3.1",
@@ -25,6 +29,8 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         provider: ModelProvider.Ollama,
         isGdprCompliant: true,
         contextSize: 128000,
+        isOpenSource: true,
+        serverLocation: "Berlin",
       },
     ],
     parameters: LLM_PARAMETERS,
