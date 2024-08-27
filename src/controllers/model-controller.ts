@@ -11,6 +11,9 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         provider: ModelProvider.OpenAI,
         isGdprCompliant: false,
         contextSize: 128000,
+        isOpenSource: false,
+        serverLocation: "USA",
+        description: "Aktuelles Modell von OpenAI, gehostet von OpenAI.",
       },
       {
         identifier: "azure-gpt-4o-mini",
@@ -18,6 +21,10 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         provider: ModelProvider.Azure,
         isGdprCompliant: true,
         contextSize: 128000,
+        isOpenSource: false,
+        serverLocation: "Schweden",
+        description:
+          "Aktuelles Modell von OpenAI, datenschutzkonform gehostet von Microsoft Azure.",
       },
       {
         identifier: "citylab-macstudio-llama-3.1",
@@ -25,6 +32,10 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         provider: ModelProvider.Ollama,
         isGdprCompliant: true,
         contextSize: 128000,
+        isOpenSource: true,
+        serverLocation: "Berlin",
+        description:
+          "Open Source - Modell von Meta, datenschutzkonform gehostet im CityLAB Berlin.",
       },
     ],
     parameters: LLM_PARAMETERS,

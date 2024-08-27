@@ -13,6 +13,9 @@ export interface Model {
   provider: ModelProvider;
   isGdprCompliant: boolean;
   contextSize: number;
+  isOpenSource: boolean;
+  serverLocation: string;
+  description: string;
 }
 
 export interface ModelResponse {
