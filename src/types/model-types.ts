@@ -15,6 +15,7 @@ export interface Model {
   contextSize: number;
   isOpenSource: boolean;
   serverLocation: string;
+  description: string;
 }
 
 export interface ModelResponse {
