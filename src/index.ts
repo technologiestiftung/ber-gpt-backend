@@ -1,4 +1,3 @@
-import bodyParser from "body-parser";
 import express from "express";
 import basicAuthMiddleware from "./middleware/basic-auth-middleware";
 import corsMiddleware from "./middleware/cors";
@@ -15,8 +14,7 @@ export const config: Config = parseConfig();
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb'}));
 app.use(corsMiddleware(config));
 app.use(rateLimitMiddleware(config));
 app.use(basicAuthMiddleware(config));
