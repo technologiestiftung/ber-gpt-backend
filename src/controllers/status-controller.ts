@@ -20,7 +20,7 @@ export const getLlmStatus = async () => {
         const llmRespone = await llmHandler.chatCompletion([
           {
             role: "user",
-            content: "Say hi in one sentence.",
+            content: "Say 'Hello, world!'.",
           },
         ]);
 
