@@ -89,7 +89,6 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
           llm: llm,
           status: 500,
           healthy: false,
-          //@ts-ignore
           error: e.message,
           welcomeMessage: undefined,
         };
@@ -97,5 +96,13 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
     })
   );
 
-  res.json({ ping: pingResults, time: new Date() });
+  const pingResultsObject: { [key: string]: any } = pingResults.reduce(
+    (acc, curr) => {
+      acc[curr.llm] = curr;
+      return acc;
+    },
+    {} as { [key: string]: any }
+  );
+
+  res.json({ ping: pingResultsObject, time: new Date() });
 };
