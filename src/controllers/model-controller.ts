@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { ModelProvider, ModelResponse } from "../types/model-types";
 import { LLM_PARAMETERS } from "../llm-handlers/constants";
+import { getLlmStatus } from "./status-controller";
 
-export const getModels = (req: Request, res: Response<ModelResponse>) => {
+export const getModels = async (req: Request, res: Response<ModelResponse>) => {
+  const modelStatus = await getLlmStatus();
+
   res.json({
     models: [
       {
@@ -14,6 +17,7 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         isOpenSource: false,
         serverLocation: "USA",
         description: "Aktuelles Modell von OpenAI, gehostet von OpenAI.",
+        status: modelStatus["openai-gpt-4o-mini"],
       },
       {
         identifier: "azure-gpt-4o-mini",
@@ -25,6 +29,7 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         serverLocation: "Schweden",
         description:
           "Aktuelles Modell von OpenAI, datenschutzkonform gehostet von Microsoft Azure.",
+        status: modelStatus["azure-gpt-4o-mini"],
       },
       {
         identifier: "citylab-macstudio-llama-3.1",
@@ -36,6 +41,7 @@ export const getModels = (req: Request, res: Response<ModelResponse>) => {
         serverLocation: "Berlin",
         description:
           "Open Source - Modell von Meta, datenschutzkonform gehostet im CityLAB Berlin.",
+        status: modelStatus["citylab-macstudio-llama-3.1"],
       },
     ],
     parameters: LLM_PARAMETERS,

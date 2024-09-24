@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
 import {
   LLMIdentifier,
   resolveLlmHandler,
 } from "../llm-handlers/resolve-llm-handler";
+import { ModelStatus } from "../types/model-types";
 
-export const getLlmStatus = async (req: Request, res: Response<any>) => {
+export const getLlmStatus = async () => {
   const llms = [
     "openai-gpt-4o-mini",
     "azure-gpt-4o-mini",
@@ -33,6 +33,7 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
             healthy: false,
             error: llmRespone.error?.message,
             welcomeMessage: undefined,
+            responseTimeMs: undefined,
           };
         }
 
@@ -104,11 +105,11 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
 
   const pingResultsObject: { [key: string]: any } = pingResults.reduce(
     (acc, curr) => {
-      acc[curr.llm] = curr;
+      acc[curr.llm] = curr as ModelStatus;
       return acc;
     },
-    {} as { [key: string]: any }
+    {} as { [key: string]: ModelStatus }
   );
 
-  res.json({ ping: pingResultsObject, time: new Date() });
+  return pingResultsObject;
 };
