@@ -22,7 +22,18 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
             content: "Say hi in one sentence.",
           },
         ]);
+
         const status = llmRespone.status;
+
+        if (status !== 200) {
+          return {
+            llm: llm,
+            status: status,
+            healthy: false,
+            error: llmRespone.error?.message,
+            welcomeMessage: undefined,
+          };
+        }
 
         const stream: NodeJS.ReadableStream = llmRespone.stream!;
 
@@ -73,12 +84,13 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
           error: undefined,
           welcomeMessage: llmResponse,
         };
-      } catch (e) {
+      } catch (e: any) {
         return {
           llm: llm,
           status: 500,
           healthy: false,
-          error: JSON.stringify(e),
+          //@ts-ignore
+          error: e.message,
           welcomeMessage: undefined,
         };
       }

@@ -28,6 +28,7 @@ export class OpenAILLMHandler implements LLMHandler {
         }),
       });
       if (moderationsResponse.status !== 200) {
+        throw new Error(`Failed to call OpenAI moderations endpoint`);
       }
       const res = await moderationsResponse.json();
       const flagged = await res.results[0].flagged;
