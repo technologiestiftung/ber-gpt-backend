@@ -10,7 +10,7 @@ export enum ModelProvider {
 export interface ModelStatus {
   status: number;
   healthy: boolean;
-  welcomeMessage: string | undefined;
+  helloWorldResponse: string | undefined;
   responseTimeMs: number | undefined;
 }
 

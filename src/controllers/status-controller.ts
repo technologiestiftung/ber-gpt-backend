@@ -32,7 +32,7 @@ export const getLlmStatus = async () => {
             status: status,
             healthy: false,
             error: llmRespone.error?.message,
-            welcomeMessage: undefined,
+            helloWorldResponse: undefined,
             responseTimeMs: undefined,
           };
         }
@@ -87,7 +87,7 @@ export const getLlmStatus = async () => {
           status: status,
           healthy: status === 200,
           error: undefined,
-          welcomeMessage: llmResponse,
+          helloWorldResponse: llmResponse,
           responseTimeMs: elapsed,
         };
       } catch (e: any) {
@@ -96,7 +96,7 @@ export const getLlmStatus = async () => {
           status: 500,
           healthy: false,
           error: e.message,
-          welcomeMessage: undefined,
+          helloWorldResponse: undefined,
           responseTimeMs: undefined,
         };
       }
