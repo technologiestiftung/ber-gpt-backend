@@ -16,6 +16,7 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
       const llmHandler = resolveLlmHandler(llm as LLMIdentifier);
 
       try {
+        const then = Date.now();
         const llmRespone = await llmHandler.chatCompletion([
           {
             role: "user",
@@ -51,6 +52,9 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
           });
         });
 
+        const now = Date.now();
+        const elapsed = now - then;
+
         let llmResponse = "";
         if (llm === "openai-gpt-4o-mini" || llm === "azure-gpt-4o-mini") {
           llmResponse = rawChunks
@@ -83,6 +87,7 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
           healthy: status === 200,
           error: undefined,
           welcomeMessage: llmResponse,
+          responseTimeMs: elapsed,
         };
       } catch (e: any) {
         return {
@@ -91,6 +96,7 @@ export const getLlmStatus = async (req: Request, res: Response<any>) => {
           healthy: false,
           error: e.message,
           welcomeMessage: undefined,
+          responseTimeMs: undefined,
         };
       }
     })
