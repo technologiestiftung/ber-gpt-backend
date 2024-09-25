@@ -7,6 +7,13 @@ export enum ModelProvider {
   Ollama = "Ollama",
 }
 
+export interface ModelStatus {
+  status: number;
+  healthy: boolean;
+  helloWorldResponse: string | undefined;
+  responseTimeMs: number | undefined;
+}
+
 export interface Model {
   identifier: LLMIdentifier;
   baseModelName: string;
@@ -16,6 +23,7 @@ export interface Model {
   isOpenSource: boolean;
   serverLocation: string;
   description: string;
+  status: ModelStatus;
 }
 
 export interface ModelResponse {
