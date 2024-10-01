@@ -3,7 +3,16 @@ import { LLMResponse } from "../types/llm-handler-types";
 export const toCustomError = async (
   response: Response
 ): Promise<LLMResponse> => {
-  const rawError = (await response.json()).error;
+  let rawError: { code: string; message: string } = { code: "", message: "" };
+  try {
+    rawError = (await response.json()).error;
+  } catch (e) {
+    rawError = {
+      code: "unknown",
+      //@ts-ignore
+      message: e.message,
+    };
+  }
 
   if (rawError.code === "content_filter") {
     return {

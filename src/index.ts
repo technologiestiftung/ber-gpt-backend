@@ -14,7 +14,7 @@ export const config: Config = parseConfig();
 const app = express();
 const port = 3000;
 
-app.use(express.json({ limit: '10mb'}));
+app.use(express.json({ limit: "10mb" }));
 app.use(corsMiddleware(config));
 app.use(rateLimitMiddleware(config));
 app.use(basicAuthMiddleware(config));
