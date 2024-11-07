@@ -8,32 +8,48 @@
 
 # BärGPT Backend
 
-This project serves as the backend for the "BärGPT" project. It exposes various endpoints which are used to communicate with LLMs.
+This project serves as the backend for the "BärGPT" project, see [BärGPT Frontend](https://github.com/technologiestiftung/ber-gpt-frontend).
+
+It exposes various endpoints which are used to communicate with LLMs.
+
+It allows for communicating with OpenAI API and a self-hosted LLM on Azure.
 
 ## Prerequisites
 
 - OpenAI Account and API key (https://platform.openai.com/)
+- Azure account and deployed LLM model on Azure (https://azure.com/)
 - Node.js (https://nodejs.org/en)
 - NVM (https://github.com/nvm-sh/nvm)
 
-## Installation
+## Development setup
 
-- `git clone git@github.com:technologiestiftung/ber-gpt-backend .git`
-- `nvm install`
-- `nvm use` 
-- `npm install`
+- `git clone git@github.com:technologiestiftung/ber-gpt-backend.git`
 
-## Usage or Deployment
+Prepare env variables by copying `.env.sample` to `.env` and setting the appropriate values:
+
+```
+CORS_ALLOWED_ORIGIN=http://localhost:5173
+RATE_LIMIT_REQUESTS_PER_MINUTE=30
+X_API_KEY="set to a secure api key of your choice"
+
+# config for Azure LLM
+AZURE_LLM_API_KEY=...
+AZURE_LLM_ENDPOINT="https://<your_hub>.openai.azure.com/openai/deployments/gpt-35-turbo-16k/chat/completions?api-version=2023-03-15-preview"
+
+# config for OpenAI LLM
+OPENAI_ENDPOINT="https://api.openai.com/v1/chat/completions"
+OPENAI_API_KEY=sk-...
+```
+
+Install dependencies:
+
+- `nvm install && nvm use`
+- `npm ci`
+
+Run the API:
 
 - `npm run dev`
-
-## Development
-
-tbd...
-
-## Tests
-
-tbd...
+- API is now running on `http://localhost:3000`
 
 ## Contributing
 
