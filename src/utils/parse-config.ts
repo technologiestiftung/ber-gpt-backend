@@ -31,6 +31,9 @@ export function parseConfig(): Config {
   if (!process.env.OLLAMA_API_KEY) {
     throw new Error("OLLAMA_API_KEY must be defined");
   }
+  if (!process.env.UPLOAD_FILE_SIZE_LIMIT_MB) {
+    throw new Error("UPLOAD_FILE_SIZE_LIMIT_MB must be defined");
+  }
   return {
     azureLlmApiKey: process.env.AZURE_LLM_API_KEY,
     azureLlmEndpointGpt35Turbo: process.env.AZURE_LLM_ENDPOINT_GPT_35_TURBO,
@@ -46,5 +49,6 @@ export function parseConfig(): Config {
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
     xApiKey: process.env.X_API_KEY,
+    fileUploadLimitMb: parseInt(process.env.UPLOAD_FILE_SIZE_LIMIT_MB),
   } as Config;
 }
