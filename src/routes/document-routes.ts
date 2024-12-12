@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { extractDocumentContent } from "../controllers/document-controller";
 import upload from "../middleware/file-upload-middleware";
+import { config } from "..";
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.post("/extract", (req, res) => {
       console.log(err);
       if (err.code === "LIMIT_FILE_SIZE") {
         return res.status(400).json({
-          message: "File size is too large. Max limit is 2MB",
+          message: `File size is too large. Max limit is ${config.fileUploadLimitMb}MB`,
           code: "file_size_limit_exceeded",
           status: 400,
         });

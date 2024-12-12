@@ -1,5 +1,6 @@
 import multer from "multer";
 import path from "path";
+import { config } from "..";
 
 const storage = multer.memoryStorage();
 
@@ -22,7 +23,7 @@ const fileFilter = (req: any, file: any, cb: any) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 2 * 1024 * 1024 },
+  limits: { fileSize: config.fileUploadLimitMb * 1024 * 1024 },
 });
 
 export default upload;

@@ -12,4 +12,5 @@ export interface Config {
   supabaseUrl: string;
   supabaseAnonKey: string;
   xApiKey: string;
+  fileUploadLimitMb: number;
 }
